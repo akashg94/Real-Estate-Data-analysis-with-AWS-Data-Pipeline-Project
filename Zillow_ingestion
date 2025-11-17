@@ -1,0 +1,84 @@
+
+import json
+import boto3
+import csv
+from io import StringIO
+
+s3_client = boto3.client('s3')
+
+def lambda_handler(event, context):
+    """Validates Zillow data is accessible and readable"""
+    
+    # S3 Configuration
+    source_bucket = 'kaggle-realestate-pipeline-raw-group4'
+    source_key = 'Zillow/realtor-data.csv'  
+    
+    try:
+        print("=" * 70)
+        print("Zillow Data Validation Lambda")
+        print("=" * 70)
+        print(f"Reading from: s3://{source_bucket}/{source_key}")
+        
+        # Get object metadata first
+        response = s3_client.head_object(Bucket=source_bucket, Key=source_key)
+        file_size = response['ContentLength']
+        print(f"File found!")
+        print(f"File size: {file_size:,} bytes ({file_size/1024/1024:.2f} MB)")
+        
+        # Read first 5000 characters to analyze structure
+        print("\nReading sample data...")
+        response = s3_client.get_object(Bucket=source_bucket, Key=source_key)
+        
+        # Read first chunk
+        sample = response['Body'].read(5000).decode('utf-8', errors='ignore')
+        
+        # Parse as CSV
+        csv_reader = csv.DictReader(StringIO(sample))
+        headers = csv_reader.fieldnames
+        
+        # Read first few rows
+        sample_rows = []
+        for i, row in enumerate(csv_reader):
+            if i >= 3:
+                break
+            sample_rows.append(row)
+        
+        # Count total lines (approximate)
+        lines = sample.count('\n')
+        
+        print(f"CSV structure validated")
+        print(f"\nColumn headers found: {len(headers)}")
+        print(f"   Headers: {', '.join(headers)}")
+        print(f"\n Sample shows ~{lines} lines in first 5KB")
+        print(f"   (Full file likely contains 2+ million rows)")
+        
+        print(f"\n First row sample:")
+        if sample_rows:
+            first_row = sample_rows[0]
+            for key, value in list(first_row.items())[:5]:
+                print(f"   {key}: {value}")
+        
+        result = {
+            'statusCode': 200,
+            'message': 'Zillow dataset is accessible and properly formatted',
+            'file_size_mb': round(file_size/1024/1024, 2),
+            'total_columns': len(headers),
+            'column_names': headers,
+            'sample_data': sample_rows[0] if sample_rows else {},
+            'note': 'Full filtering and processing will happen in Glue ETL job'
+        }
+        
+        print("\n" + "=" * 70)
+        print( "VALIDATION SUCCESS!")
+        print("=" * 70)
+        
+        return result
+        
+    except Exception as e:
+        print(f"\n ERROR: {str(e)}")
+        return {
+            'statusCode': 500,
+            'message': f'Error accessing Zillow data: {str(e)}',
+            'bucket': source_bucket,
+            'key': source_key
+        }
