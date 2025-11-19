@@ -15,7 +15,7 @@ AWS Services Used
 •	Amazon Athena - SQL queries on processed data
 •	Amazon QuickSight - Data visualization (optional)
 
-Technical Aspect
+Technical Aspect : 
 
 Big Data: We processed 2.2 MILLION properties!
 Cloud Computing: Used Amazon's supercomputers (not our laptop)
