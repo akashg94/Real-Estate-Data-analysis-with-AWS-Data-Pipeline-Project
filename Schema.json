@@ -1,0 +1,92 @@
+[
+  {
+    "Name": "brokered_by",
+    "Type": "string",
+    "Comment": ""
+  },
+  {
+    "Name": "status",
+    "Type": "string",
+    "Comment": ""
+  },
+  {
+    "Name": "price",
+    "Type": "double",
+    "Comment": ""
+  },
+  {
+    "Name": "bed",
+    "Type": "int",
+    "Comment": ""
+  },
+  {
+    "Name": "bath",
+    "Type": "int",
+    "Comment": ""
+  },
+  {
+    "Name": "acre_lot",
+    "Type": "double",
+    "Comment": ""
+  },
+  {
+    "Name": "street",
+    "Type": "string",
+    "Comment": ""
+  },
+  {
+    "Name": "city",
+    "Type": "string",
+    "Comment": ""
+  },
+  {
+    "Name": "state",
+    "Type": "string",
+    "Comment": ""
+  },
+  {
+    "Name": "zip_code",
+    "Type": "string",
+    "Comment": ""
+  },
+  {
+    "Name": "house_size",
+    "Type": "double",
+    "Comment": ""
+  },
+  {
+    "Name": "prev_sold_date",
+    "Type": "string",
+    "Comment": ""
+  },
+  {
+    "Name": "census_median_income",
+    "Type": "double",
+    "Comment": ""
+  },
+  {
+    "Name": "census_population",
+    "Type": "double",
+    "Comment": ""
+  },
+  {
+    "Name": "census_college_pct",
+    "Type": "double",
+    "Comment": ""
+  },
+  {
+    "Name": "census_unemployment_rate",
+    "Type": "double",
+    "Comment": ""
+  },
+  {
+    "Name": "census_median_age",
+    "Type": "double",
+    "Comment": ""
+  },
+  {
+    "Name": "price_per_sqft",
+    "Type": "double",
+    "Comment": ""
+  }
+]
